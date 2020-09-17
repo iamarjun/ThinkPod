@@ -12,6 +12,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:alpha="0.5"
+        android:background="?selectableItemBackgroundBorderless"
         android:scaleType="centerCrop"
         app:shapeAppearanceOverlay="@style/roundedCornersImageView"
         tools:src="@tools:sample/avatars" />
