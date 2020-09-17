@@ -3,7 +3,7 @@
 
     <!-- Shapeable ImageView Overlap-->
 
-    <style name="roundedCornersImageView" parent="">
+    <style name="RoundedCorners" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">30dp</item>
     </style>

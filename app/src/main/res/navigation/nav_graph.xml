@@ -7,6 +7,19 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.arjun.thinkpod.home.HomeFragment"
-        android:label="HomeFragment" />
+        android:label="HomeFragment">
+        <action
+            android:id="@+id/action_homeFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.arjun.thinkpod.detailScreen.DetailFragment"
+        android:label="DetailFragment">
+        <argument
+            android:name="channel"
+            app:argType="com.prof.rssparser.Channel" />
+    </fragment>
 
 </navigation>

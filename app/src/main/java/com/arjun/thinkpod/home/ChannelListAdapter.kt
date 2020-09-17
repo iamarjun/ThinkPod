@@ -68,19 +68,23 @@ class ChannelListAdapter(private val interaction: Interaction? = null) :
         fun bind(item: Channel) {
 
             binding.root.setOnClickListener {
-                interaction?.onItemSelected(adapterPosition, item)
+                interaction?.onItemSelected(binding.avatar, item)
             }
 
-            binding.channelName.text = item.title
+            binding.title.text = item.title
 
-            GlideApp.with(itemView)
-                .load(item.image?.url)
-                .into(binding.channelAvatar)
+            binding.avatar.apply {
+                transitionName = item.image?.url
+                GlideApp.with(itemView)
+                    .load(item.image?.url)
+                    .into(this)
+            }
+
         }
     }
 
     interface Interaction {
-        fun onItemSelected(position: Int, item: Channel)
+        fun onItemSelected(view: View, item: Channel)
     }
 }
 
