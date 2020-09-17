@@ -15,7 +15,9 @@ import com.arjun.thinkpod.model.Channels
 import com.arjun.thinkpod.util.EqualSpacingItemDecoration
 import com.arjun.thinkpod.util.viewBinding
 import com.prof.rssparser.Channel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private val binding: FragmentHomeBinding by viewBinding(FragmentHomeBinding::bind)
