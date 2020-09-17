@@ -2,14 +2,15 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="250dp"
-    android:layout_height="350dp"
+    android:layout_width="match_parent"
+    android:layout_height="280dp"
     android:layout_gravity="center">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/channel_avatar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
         android:scaleType="centerCrop"
         app:shapeAppearanceOverlay="@style/roundedCornersImageView"
         tools:src="@tools:sample/avatars" />
@@ -20,7 +21,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
         android:layout_marginBottom="16dp"
-        android:textSize="28sp"
+        android:textAlignment="center"
+        android:textColor="@color/primaryColor"
+        android:textSize="24sp"
         android:textStyle="bold"
         tools:text="@tools:sample/full_names" />
 

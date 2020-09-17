@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!--    Shap ImageView Overlap-->
+    <!-- Shapeable ImageView Overlap-->
 
     <style name="roundedCornersImageView" parent="">
         <item name="cornerFamily">rounded</item>
