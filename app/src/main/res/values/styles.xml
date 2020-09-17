@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+    <!--    Shap ImageView Overlap-->
+
+    <style name="roundedCornersImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">30dp</item>
+    </style>
+
     <!-- TextInputLayout styles -->
 
     <style name="App.Theme.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
