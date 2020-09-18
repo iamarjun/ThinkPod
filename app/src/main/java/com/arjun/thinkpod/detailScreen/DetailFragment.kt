@@ -8,11 +8,14 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionInflater
 import com.arjun.thinkpod.GlideApp
 import com.arjun.thinkpod.MainViewModel
 import com.arjun.thinkpod.R
 import com.arjun.thinkpod.databinding.FragmentDetailBinding
+import com.arjun.thinkpod.util.EqualSpacingItemDecoration
 import com.arjun.thinkpod.util.Resource
 import com.arjun.thinkpod.util.viewBinding
 import com.google.android.material.snackbar.Snackbar
@@ -25,6 +28,7 @@ class DetailFragment : Fragment() {
     private val binding: FragmentDetailBinding by viewBinding(FragmentDetailBinding::bind)
     private val arg: DetailFragmentArgs by navArgs()
     private val viewModel: MainViewModel by viewModels()
+    private val podcastListAdapter by lazy { PodcastListAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +58,12 @@ class DetailFragment : Fragment() {
         binding.author.text = arg.channel.title
         binding.description.text = arg.channel.description
 
+        binding.podcasts.apply {
+            layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+            addItemDecoration(EqualSpacingItemDecoration(8, EqualSpacingItemDecoration.HORIZONTAL))
+            adapter = podcastListAdapter
+        }
+
         viewModel.rssChannel.observe(viewLifecycleOwner, {
 
             binding.progress.isVisible = it is Resource.Loading
@@ -62,6 +72,7 @@ class DetailFragment : Fragment() {
 
                 is Resource.Success -> {
                     Timber.d(it.data?.articles.toString())
+                    it.data?.let { channel -> podcastListAdapter.submitList(channel.articles) }
                 }
                 is Resource.Error -> {
                     Timber.e(it.message)
