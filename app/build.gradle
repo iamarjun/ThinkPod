@@ -28,10 +28,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
             buildConfigField 'String', 'BASE_URL', '"https://rss.itunes.apple.com/api/v1/"'
+            buildConfigField 'String', 'RSS_FEED_LOOKUP_URL', '"https://itunes.apple.com/lookup"'
         }
 
         debug {
             buildConfigField 'String', 'BASE_URL', '"https://rss.itunes.apple.com/api/v1/"'
+            buildConfigField 'String', 'RSS_FEED_LOOKUP_URL', '"https://itunes.apple.com/lookup"'
         }
     }
 
@@ -96,10 +98,10 @@ dependencies {
     kapt 'androidx.hilt:hilt-compiler:1.0.0-alpha02'
 
     //Retrofit2
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-simplexml:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-jaxb:2.9.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
+    implementation 'com.squareup.retrofit2:converter-simplexml:2.6.0'
+    implementation 'com.squareup.retrofit2:converter-jaxb:2.6.0'
 
     //OkHttp
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'

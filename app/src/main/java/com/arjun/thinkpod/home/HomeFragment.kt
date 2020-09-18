@@ -61,7 +61,7 @@ class HomeFragment : Fragment() {
             adapter = podcastAdapter
         }
 
-        viewModel.rssITunesResponse.observe(viewLifecycleOwner, {
+        viewModel.iTunesResponse.observe(viewLifecycleOwner, {
 
             binding.loader.isVisible = it is Resource.Loading
 

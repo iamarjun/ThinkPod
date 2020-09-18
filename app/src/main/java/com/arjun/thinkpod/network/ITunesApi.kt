@@ -1,6 +1,6 @@
 package com.arjun.thinkpod.network
 
-import com.arjun.thinkpod.model.RssFeed
+import com.arjun.thinkpod.model.xml.RssFeed
 import com.arjun.thinkpod.network.response.ITunesResponse
 import com.arjun.thinkpod.network.response.LookupResponse
 import com.arjun.thinkpod.network.response.SearchResponse
@@ -10,11 +10,6 @@ import retrofit2.http.Query
 import retrofit2.http.Url
 
 interface ITunesApi {
-    @Retention(AnnotationRetention.RUNTIME)
-    annotation class Json
-
-    @Retention(AnnotationRetention.RUNTIME)
-    annotation class Xml
 
     @Json
     @GET("{country}/podcasts/top-podcasts/all/50/explicit.json")

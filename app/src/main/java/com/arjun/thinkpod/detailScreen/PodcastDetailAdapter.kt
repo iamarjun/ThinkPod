@@ -8,12 +8,11 @@
 //import androidx.recyclerview.widget.RecyclerView
 //import com.arjun.thinkpod.R
 //import com.arjun.thinkpod.databinding.PodcastItemBinding
-//import com.prof.rssparser.Article
 //import timber.log.Timber
 //import java.time.LocalDateTime
 //import java.time.format.DateTimeFormatter
 //
-//class PodcastAdapter(private val interaction: Interaction? = null) :
+//class PodcastDetailAdapter(private val interaction: Interaction? = null) :
 //    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 //
 //    private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Article>() {
