@@ -52,7 +52,7 @@ object Channels {
 
         Channel(
             title = "Dateline NBC",
-            link = "https://art19.com/shows/dateline-nbc",
+            link = "https://podcastfeeds.nbcnews.com/dateline-nbc",
             description = "Current and classic episodes, featuring compelling true-crime mysteries, powerful documentaries and in-depth investigations.",
             image = Image(
                 title = "Dateline NBC",
