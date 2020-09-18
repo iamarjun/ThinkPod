@@ -19,6 +19,7 @@
             android:layout_marginEnd="16dp"
             android:ellipsize="end"
             android:maxLines="2"
+            android:textColor="@color/textColorLight"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@id/date"
             app:layout_constraintEnd_toEndOf="parent"

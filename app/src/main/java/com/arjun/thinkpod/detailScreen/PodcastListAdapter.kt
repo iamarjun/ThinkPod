@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.arjun.thinkpod.R
 import com.arjun.thinkpod.databinding.PodcastItemBinding
 import com.prof.rssparser.Article
+import timber.log.Timber
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class PodcastListAdapter(private val interaction: Interaction? = null) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -69,8 +72,15 @@ class PodcastListAdapter(private val interaction: Interaction? = null) :
             }
 
             binding.title.text = item.title
-            binding.date.text = item.pubDate
+            binding.date.text = convertDate(item.pubDate)
+        }
 
+        private fun convertDate(date: String?): String {
+            val df = DateTimeFormatter.ofPattern("E, d MMM yyyy HH:mm:ss Z")
+            val time = LocalDateTime.parse(date, df)
+                .format(DateTimeFormatter.ofPattern("E, dd MMM"))
+            Timber.d(time)
+            return time
         }
     }
 
