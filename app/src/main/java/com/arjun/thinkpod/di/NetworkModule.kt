@@ -1,25 +1,38 @@
 package com.arjun.thinkpod.di
 
-import android.content.Context
-import com.prof.rssparser.Parser
+import com.arjun.thinkpod.BuildConfig
+import com.arjun.thinkpod.network.ITunesApi
+import com.arjun.thinkpod.network.XmlOrJsonConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
-import dagger.hilt.android.qualifiers.ApplicationContext
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 @Module
 @InstallIn(ApplicationComponent::class)
 object NetworkModule {
 
     @Provides
-    fun provideRssParser(@ApplicationContext context: Context): Parser {
-        return Parser.Builder()
-            .context(context)
-            // If you want to provide a custom charset (the default is utf-8):
-            // .charset(Charset.forName("ISO-8859-7"))
-            .cacheExpirationMillis(24L * 60L * 60L * 100L) // one day
+    fun provideXmlOrJsonConverterFactory(): XmlOrJsonConverterFactory {
+        return XmlOrJsonConverterFactory()
+    }
+
+    @Provides
+    fun provideRetrofitBuilder(
+        xjf: XmlOrJsonConverterFactory
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BuildConfig.BASE_URL)
+            .addConverterFactory(xjf)
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
+    }
+
+    @Provides
+    fun provideRestApi(retrofit: Retrofit): ITunesApi {
+        return retrofit.create(ITunesApi::class.java)
     }
 
 }

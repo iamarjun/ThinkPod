@@ -5,28 +5,36 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.arjun.thinkpod.network.ITunesApi
+import com.arjun.thinkpod.network.response.ITunesResponse
 import com.arjun.thinkpod.util.Resource
-import com.prof.rssparser.Channel
-import com.prof.rssparser.Parser
 import kotlinx.coroutines.launch
 
-class MainViewModel @ViewModelInject constructor(private val parser: Parser) : ViewModel() {
+class MainViewModel @ViewModelInject constructor(private val iTunesApi: ITunesApi) : ViewModel() {
 
-    private val _rssChannel = MutableLiveData<Resource<Channel>>()
-    val rssChannel: LiveData<Resource<Channel>>
-        get() = _rssChannel
+    private val _rssITunesResponse = MutableLiveData<Resource<ITunesResponse>>()
+    val rssITunesResponse: LiveData<Resource<ITunesResponse>>
+        get() = _rssITunesResponse
 
 
-    fun fetchFeed(url: String) {
+    fun fetchTopPodcast() {
         viewModelScope.launch {
-            _rssChannel.postValue(Resource.Loading())
+            _rssITunesResponse.postValue(Resource.Loading())
             try {
-                val channel = parser.getChannel(url)
-                _rssChannel.postValue(Resource.Success(channel))
+                val channel = iTunesApi.getTopPodcasts(COUNTRY)
+                _rssITunesResponse.postValue(Resource.Success(channel))
             } catch (e: Exception) {
                 e.printStackTrace()
-                _rssChannel.postValue(Resource.Error(e.localizedMessage ?: "Something went wrong"))
+                _rssITunesResponse.postValue(
+                    Resource.Error(
+                        e.localizedMessage ?: "Something went wrong"
+                    )
+                )
             }
         }
+    }
+
+    companion object {
+        const val COUNTRY = "us"
     }
 }

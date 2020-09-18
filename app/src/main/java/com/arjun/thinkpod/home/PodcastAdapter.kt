@@ -9,18 +9,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.arjun.thinkpod.GlideApp
 import com.arjun.thinkpod.R
 import com.arjun.thinkpod.databinding.ChannelItemBinding
-import com.prof.rssparser.Channel
+import com.arjun.thinkpod.model.Podcast
 
-class ChannelListAdapter(private val interaction: Interaction? = null) :
+class PodcastAdapter(private val interaction: Interaction? = null) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Channel>() {
+    private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Podcast>() {
 
-        override fun areItemsTheSame(oldItem: Channel, newItem: Channel): Boolean {
-            return oldItem.hashCode() == newItem.hashCode()
+        override fun areItemsTheSame(oldItem: Podcast, newItem: Podcast): Boolean {
+            return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Channel, newItem: Channel): Boolean {
+        override fun areContentsTheSame(oldItem: Podcast, newItem: Podcast): Boolean {
             return oldItem == newItem
         }
 
@@ -31,7 +31,7 @@ class ChannelListAdapter(private val interaction: Interaction? = null) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
-        return ChannelViewHolder(
+        return PodcastViewHolder(
             LayoutInflater.from(parent.context).inflate(
                 R.layout.channel_item,
                 parent,
@@ -43,7 +43,7 @@ class ChannelListAdapter(private val interaction: Interaction? = null) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is ChannelViewHolder -> {
+            is PodcastViewHolder -> {
                 holder.bind(differ.currentList.get(position))
             }
         }
@@ -53,11 +53,11 @@ class ChannelListAdapter(private val interaction: Interaction? = null) :
         return differ.currentList.size
     }
 
-    fun submitList(list: List<Channel>) {
+    fun submitList(list: List<Podcast>) {
         differ.submitList(list)
     }
 
-    class ChannelViewHolder
+    class PodcastViewHolder
     constructor(
         itemView: View,
         private val interaction: Interaction?
@@ -65,18 +65,18 @@ class ChannelListAdapter(private val interaction: Interaction? = null) :
 
         private val binding = ChannelItemBinding.bind(itemView)
 
-        fun bind(item: Channel) {
+        fun bind(item: Podcast) {
 
             binding.root.setOnClickListener {
                 interaction?.onItemSelected(binding.avatar, item)
             }
 
-            binding.title.text = item.title
+            binding.title.text = item.name
 
             binding.avatar.apply {
-                transitionName = item.image?.url
+                transitionName = item.id
                 GlideApp.with(itemView)
-                    .load(item.image?.url)
+                    .load(item.artworkUrl)
                     .into(this)
             }
 
@@ -84,7 +84,7 @@ class ChannelListAdapter(private val interaction: Interaction? = null) :
     }
 
     interface Interaction {
-        fun onItemSelected(view: View, item: Channel)
+        fun onItemSelected(view: View, item: Podcast)
     }
 }
 

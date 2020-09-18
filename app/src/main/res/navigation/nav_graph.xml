@@ -18,8 +18,8 @@
         android:name="com.arjun.thinkpod.detailScreen.DetailFragment"
         android:label="DetailFragment">
         <argument
-            android:name="channel"
-            app:argType="com.prof.rssparser.Channel" />
+            android:name="Podcast"
+            app:argType="com.arjun.thinkpod.model.Podcast" />
     </fragment>
 
 </navigation>
