@@ -29,7 +29,7 @@ class DetailFragment : Fragment() {
     private val arg: DetailFragmentArgs by navArgs()
     private val viewModel: MainViewModel by viewModels()
     private val podcast by lazy { arg.podcast }
-//    private val podcastListAdapter by lazy { PodcastListAdapter() }
+    private val itemAdapter by lazy { ItemAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +61,7 @@ class DetailFragment : Fragment() {
         binding.podcasts.apply {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             addItemDecoration(EqualSpacingItemDecoration(8, EqualSpacingItemDecoration.HORIZONTAL))
-//            adapter = podcastListAdapter
+            adapter = itemAdapter
         }
 
         viewModel.rssFeed.observe(viewLifecycleOwner, {
@@ -71,10 +71,9 @@ class DetailFragment : Fragment() {
             when (it) {
 
                 is Resource.Success -> {
-                    Timber.d(it.data.toString())
+                    Timber.d(it.data?.channel?.itemList?.toString())
                     binding.description.text = it.data?.channel?.description
-
-//                    it.data?.let { channel -> podcastListAdapter.submitList(channel.articles) }
+                    it.data?.channel?.itemList?.let { itemList -> itemAdapter.submitList(itemList) }
                 }
                 is Resource.Error -> {
                     Timber.e(it.message)
