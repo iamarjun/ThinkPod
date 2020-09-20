@@ -1,9 +1,11 @@
 package com.arjun.thinkpod.network.response
 
-import com.arjun.thinkpod.model.SearchResult
+
 import com.google.gson.annotations.SerializedName
 
-class SearchResponse {
+data class SearchResponse(
+    @SerializedName("resultCount")
+    val resultCount: Int,
     @SerializedName("results")
-    var searchResults: List<SearchResult>? = null
-}
+    val results: List<Result>
+)

@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.arjun.thinkpod.model.xml.RssFeed
 import com.arjun.thinkpod.network.ITunesApi
 import com.arjun.thinkpod.network.response.ITunesResponse
+import com.arjun.thinkpod.network.response.SearchResponse
 import com.arjun.thinkpod.util.Resource
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -21,6 +22,10 @@ class MainViewModel @ViewModelInject constructor(private val iTunesApi: ITunesAp
     private val _rssFeed = MutableLiveData<Resource<RssFeed>>()
     val rssFeed: LiveData<Resource<RssFeed>>
         get() = _rssFeed
+
+    private val _searchResponse = MutableLiveData<Resource<SearchResponse>>()
+    val searchResponse: LiveData<Resource<SearchResponse>>
+        get() = _searchResponse
 
     fun fetchTopPodcast() {
         viewModelScope.launch {
@@ -70,7 +75,28 @@ class MainViewModel @ViewModelInject constructor(private val iTunesApi: ITunesAp
         }
     }
 
+    fun searchPodcast(it: String) {
+        viewModelScope.launch {
+            _searchResponse.value = Resource.Loading()
+            try {
+                val searchResponse =
+                    iTunesApi.getSearchResponse(
+                        BuildConfig.RSS_FEED_SEARCH_URL,
+                        COUNTRY,
+                        SEARCH_MEDIA_PODCAST,
+                        it
+                    )
+                _searchResponse.value = Resource.Success(searchResponse)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Timber.e(e)
+                _searchResponse.value = Resource.Error(e.localizedMessage ?: "Something went wrong")
+            }
+        }
+    }
+
     companion object {
         const val COUNTRY = "us"
+        const val SEARCH_MEDIA_PODCAST = "podcast"
     }
 }

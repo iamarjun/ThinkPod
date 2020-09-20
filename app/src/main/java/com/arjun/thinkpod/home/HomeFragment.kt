@@ -1,9 +1,8 @@
 package com.arjun.thinkpod.home
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -15,6 +14,7 @@ import com.arjun.thinkpod.MainViewModel
 import com.arjun.thinkpod.R
 import com.arjun.thinkpod.databinding.FragmentHomeBinding
 import com.arjun.thinkpod.model.Podcast
+import com.arjun.thinkpod.network.response.toPodcast
 import com.arjun.thinkpod.util.EqualSpacingItemDecoration
 import com.arjun.thinkpod.util.Resource
 import com.arjun.thinkpod.util.viewBinding
@@ -38,9 +38,11 @@ class HomeFragment : Fragment() {
         })
     }
 
+    private var searchView: SearchView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        setHasOptionsMenu(true)
         viewModel.fetchTopPodcast()
     }
 
@@ -76,7 +78,58 @@ class HomeFragment : Fragment() {
             }
         })
 
+        viewModel.searchResponse.observe(viewLifecycleOwner, {
 
+            binding.loader.isVisible = it is Resource.Loading
+
+            when (it) {
+                is Resource.Success -> {
+                    Timber.d(it.data?.results?.toString())
+                    it.data?.let { searchResponse ->
+                        val podcast = searchResponse.results.map { result -> result.toPodcast() }
+                        podcastAdapter.submitList(podcast)
+                    }
+                }
+                is Resource.Error -> {
+                    Timber.e(it.message)
+                }
+            }
+        })
+
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_search, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        val mSearchMenuItem = menu.findItem(R.id.action_search)
+        searchView = mSearchMenuItem.actionView as SearchView
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_search) {
+            searchView?.apply {
+                queryHint = "Ghost..."
+                setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                    override fun onQueryTextChange(newText: String?): Boolean {
+                        return false
+                    }
+
+                    override fun onQueryTextSubmit(query: String?): Boolean {
+                        query?.let { search(it) }
+                        return false
+                    }
+                })
+            }
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun search(it: String) {
+        viewModel.searchPodcast(it)
     }
 
 }

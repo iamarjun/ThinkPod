@@ -29,11 +29,13 @@ android {
 
             buildConfigField 'String', 'BASE_URL', '"https://rss.itunes.apple.com/api/v1/"'
             buildConfigField 'String', 'RSS_FEED_LOOKUP_URL', '"https://itunes.apple.com/lookup"'
+            buildConfigField 'String', 'RSS_FEED_SEARCH_URL', '"https://itunes.apple.com/search"'
         }
 
         debug {
             buildConfigField 'String', 'BASE_URL', '"https://rss.itunes.apple.com/api/v1/"'
             buildConfigField 'String', 'RSS_FEED_LOOKUP_URL', '"https://itunes.apple.com/lookup"'
+            buildConfigField 'String', 'RSS_FEED_SEARCH_URL', '"https://itunes.apple.com/search"'
         }
     }
 
