@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.arjun.thinkpod.model.xml.Item
 import com.arjun.thinkpod.service.PodcastService
 import com.arjun.thinkpod.util.isServiceRunning
+import kotlinx.android.synthetic.main.activity_podcast.*
 
 abstract class BaseActivity : AppCompatActivity() {
     private var podcastService: PodcastService? = null
@@ -19,15 +20,17 @@ abstract class BaseActivity : AppCompatActivity() {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             val binder = service as PodcastService.PodcastServiceBinder
             podcastService = binder.service
+            playerView.player = binder.exoPlayer
+            playerView.showController()
 
             // Pass player updates to interested observers.
-            podcastService?.playerStatusLiveData?.observe(this@BaseActivity, {
-//                _playerStatusLiveData.value = it
-
-//                if (it is PlayerStatus.Cancelled) {
-//                    stopAudioService()
-//                }
-            })
+//            podcastService?.playerStatusLiveData?.observe(this@BaseActivity, {
+////                _playerStatusLiveData.value = it
+//
+////                if (it is PlayerStatus.Cancelled) {
+////                    stopAudioService()
+////                }
+//            })
 
             // Show player after config change.
 //            val episodeId = podcastService?.episodeId

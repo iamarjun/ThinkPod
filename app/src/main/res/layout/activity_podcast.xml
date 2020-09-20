@@ -1,8 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".service.PodcastActivity">
+    android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.exoplayer2.ui.PlayerView
+        android:id="@+id/playerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:forceDarkAllowed="true"
+        app:auto_show="true"
+        app:controller_layout_id="@layout/audio_controller_view"
+        app:default_artwork="@drawable/podcast_placeholder"
+        app:fastforward_increment="@integer/increment_ms"
+        app:hide_on_touch="false"
+        app:player_layout_id="@layout/audio_player_view"
+        app:resize_mode="fixed_height"
+        app:rewind_increment="@integer/increment_ms"
+        app:show_buffering="always"
+        app:show_timeout="0"
+        app:use_artwork="true"
+        app:use_controller="true" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/show_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="28dp"
+        android:textColor="@color/textColorLight"
+        android:textSize="28sp"
+        tools:text="@tools:sample/lorem" />
+
+</FrameLayout>

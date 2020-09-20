@@ -13,8 +13,6 @@ import android.support.v4.media.session.MediaSessionCompat
 import androidx.annotation.MainThread
 import androidx.annotation.Nullable
 import androidx.lifecycle.LifecycleService
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import com.arjun.thinkpod.BuildConfig
 import com.arjun.thinkpod.GlideApp
@@ -47,16 +45,12 @@ class PodcastService : LifecycleService() {
 
     private var playbackTimer: Timer? = null
     private var item: Item? = null
+    private var prevItem: Item? = null
 
     private lateinit var exoPlayer: SimpleExoPlayer
     private var playerNotificationManager: PlayerNotificationManager? = null
     private var mediaSession: MediaSessionCompat? = null
     private var mediaSessionConnector: MediaSessionConnector? = null
-
-    private val _playerStatusLiveData = MutableLiveData<PlayerStatus>()
-    val playerStatusLiveData: LiveData<PlayerStatus>
-        get() = _playerStatusLiveData
-
 
     override fun onCreate() {
         super.onCreate()
@@ -231,8 +225,12 @@ class PodcastService : LifecycleService() {
         intent?.let {
             intent.getParcelableExtra<Item>(PODCAST_ITEM)?.also {
                 item = it
-                val uri = item?.enclosures?.get(0)?.url
-                play(Uri.parse(uri))
+                val uri: String?
+                if (prevItem == null || item?.iTunesDuration != prevItem?.iTunesDuration) {
+                    prevItem = item
+                    uri = prevItem?.enclosures?.get(0)?.url
+                    play(Uri.parse(uri))
+                }
             } ?: Timber.w("Playback uri was not set")
         }
     }
