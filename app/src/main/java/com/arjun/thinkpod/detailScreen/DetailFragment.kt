@@ -15,6 +15,8 @@ import com.arjun.thinkpod.GlideApp
 import com.arjun.thinkpod.MainViewModel
 import com.arjun.thinkpod.R
 import com.arjun.thinkpod.databinding.FragmentDetailBinding
+import com.arjun.thinkpod.model.xml.Item
+import com.arjun.thinkpod.service.PodcastActivity
 import com.arjun.thinkpod.util.EqualSpacingItemDecoration
 import com.arjun.thinkpod.util.Resource
 import com.arjun.thinkpod.util.viewBinding
@@ -29,7 +31,16 @@ class DetailFragment : Fragment() {
     private val arg: DetailFragmentArgs by navArgs()
     private val viewModel: MainViewModel by viewModels()
     private val podcast by lazy { arg.podcast }
-    private val itemAdapter by lazy { ItemAdapter() }
+    private val itemAdapter by lazy {
+        ItemAdapter(object : ItemAdapter.Interaction {
+            override fun onItemSelected(position: Int, item: Item) {
+                PodcastActivity.instance(requireContext(), item).also {
+                    startActivity(it)
+                }
+            }
+
+        })
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

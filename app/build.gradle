@@ -72,6 +72,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-common-java8:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-service:2.2.0'
 
     //Java8 API Desugarging
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.10'
@@ -98,13 +99,15 @@ dependencies {
     kapt 'androidx.hilt:hilt-compiler:1.0.0-alpha02'
 
     //Retrofit2
-    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
-    implementation 'com.squareup.retrofit2:converter-simplexml:2.6.0'
-    implementation 'com.squareup.retrofit2:converter-jaxb:2.6.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-simplexml:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-jaxb:2.9.0'
 
-    //OkHttp
-    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+    //ExoPlayer for Audio
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.11.8'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.11.8'
+    implementation 'com.google.android.exoplayer:extension-mediasession:2.11.8'
 
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
