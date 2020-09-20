@@ -1,6 +1,8 @@
 package com.arjun.thinkpod.detailScreen
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -93,5 +95,21 @@ class DetailFragment : Fragment() {
             }
         })
 
+        binding.search.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                Timber.d("beforeTextChanged")
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                Timber.d("onTextChanged")
+                itemAdapter.filter.filter(s)
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                Timber.d("afterTextChanged")
+                itemAdapter.filter.filter(s)
+            }
+
+        })
     }
 }

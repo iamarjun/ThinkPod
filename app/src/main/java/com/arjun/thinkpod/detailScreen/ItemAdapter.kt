@@ -3,6 +3,8 @@ package com.arjun.thinkpod.detailScreen
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +18,7 @@ import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeFormatterBuilder
 
 class ItemAdapter(private val interaction: Interaction? = null) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
 
     private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Item>() {
 
@@ -31,6 +33,8 @@ class ItemAdapter(private val interaction: Interaction? = null) :
     }
     private val differ = AsyncListDiffer(this, DIFF_CALLBACK)
 
+    private val ogList: MutableList<Item> = ArrayList()
+    private val filterList: MutableList<Item> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
@@ -57,6 +61,10 @@ class ItemAdapter(private val interaction: Interaction? = null) :
     }
 
     fun submitList(list: List<Item>) {
+        ogList.clear()
+        ogList.addAll(list)
+        filterList.clear()
+        filterList.addAll(list)
         differ.submitList(list)
     }
 
@@ -93,6 +101,37 @@ class ItemAdapter(private val interaction: Interaction? = null) :
             Timber.d(time)
             return time
         }
+    }
+
+    override fun getFilter(): Filter = PodcastFilter()
+
+    inner class PodcastFilter : Filter() {
+        override fun performFiltering(constraint: CharSequence?): FilterResults {
+            val filterResults = FilterResults()
+            val query = constraint.toString().trim()
+            if (query.isNotEmpty()) {
+                val list = ogList.filter { item ->
+                    item.title.contains(
+                        query,
+                        ignoreCase = true
+                    )
+                }
+                filterList.clear()
+                filterList.addAll(list)
+            }
+            return filterResults.apply {
+                count = filterList.size
+                values = filterList
+            }
+        }
+
+        override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+            results?.let {
+                differ.submitList(it.values as MutableList<Item>)
+                notifyDataSetChanged()
+            }
+        }
+
     }
 
     interface Interaction {
