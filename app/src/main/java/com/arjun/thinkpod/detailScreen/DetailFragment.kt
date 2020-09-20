@@ -38,7 +38,6 @@ class DetailFragment : Fragment() {
                     startActivity(it)
                 }
             }
-
         })
     }
 
