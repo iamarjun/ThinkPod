@@ -81,6 +81,14 @@ class ItemAdapter(private val interaction: Interaction? = null) :
                 interaction?.onItemSelected(adapterPosition, item)
             }
 
+            binding.star.setOnClickListener {
+                interaction?.setFavourite(adapterPosition, item)
+            }
+
+            binding.share.setOnClickListener {
+                interaction?.onShareSelected(adapterPosition, item)
+            }
+
             GlideApp.with(itemView)
                 .load(if (item.itemImages != null) item.itemImages[0].itemImageHref else R.drawable.podcast_placeholder)
                 .into(binding.image)
@@ -136,6 +144,8 @@ class ItemAdapter(private val interaction: Interaction? = null) :
 
     interface Interaction {
         fun onItemSelected(position: Int, item: Item)
+        fun onShareSelected(position: Int, item: Item)
+        fun setFavourite(position: Int, item: Item)
     }
 }
 

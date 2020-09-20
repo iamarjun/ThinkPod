@@ -1,11 +1,13 @@
 package com.arjun.thinkpod.detailScreen
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ShareCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -40,8 +42,33 @@ class DetailFragment : Fragment() {
                     startActivity(it)
                 }
             }
+
+            override fun onShareSelected(position: Int, item: Item) {
+                Timber.d("$position")
+                shareItem(item)
+            }
+
+            override fun setFavourite(position: Int, item: Item) {
+                Timber.d("$position")
+            }
         })
     }
+
+    private fun shareItem(item: Item) {
+        val shareText = "Checkout: " + podcast.artistName + " " +
+                item.title + " " +
+                item.enclosures[0].url
+        // Create a share intent
+        val shareIntent = ShareCompat.IntentBuilder.from(requireActivity())
+            .setType(SHARE_INTENT_TYPE_TEXT)
+
+            .setText(shareText)
+            .setChooserTitle(getString(R.string.share_episode))
+            .createChooserIntent()
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT)
+        startActivity(shareIntent)
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,5 +138,9 @@ class DetailFragment : Fragment() {
             }
 
         })
+    }
+
+    companion object {
+        private const val SHARE_INTENT_TYPE_TEXT = "text/plain"
     }
 }

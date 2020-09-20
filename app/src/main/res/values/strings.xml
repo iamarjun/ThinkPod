@@ -6,4 +6,5 @@
     <string name="loading_dots">...</string>
     <string name="playback_channel_description">Playback Channel Description</string>
     <string name="search">Search</string>
+    <string name="share_episode">Share PodCast Episode</string>
 </resources>
