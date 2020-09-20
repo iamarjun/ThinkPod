@@ -11,6 +11,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:forceDarkAllowed="true"
+        android:textAlignment="center"
         app:auto_show="true"
         app:controller_layout_id="@layout/audio_controller_view"
         app:default_artwork="@drawable/podcast_placeholder"
