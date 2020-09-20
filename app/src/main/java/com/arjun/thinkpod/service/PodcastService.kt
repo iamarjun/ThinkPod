@@ -324,19 +324,11 @@ class PodcastService : LifecycleService() {
 
     companion object {
 
-        private const val ACTION_RELEASE_OLD_PLAYER = "ACTION_RELEASE_OLD_PLAYER"
         private const val PODCAST_ITEM = "PODCAST_ITEM"
 
-        private const val MEDIA_SESSION_TAG = "sed_audio"
         private const val PLAYBACK_CHANNEL_ID = "playback_channel"
         private const val PLAYBACK_NOTIFICATION_ID = 2
         private const val PLAYBACK_TIMER_DELAY = 5 * 1000L
-
-        private const val ARG_EPISODE_ID = "episode_id"
-        private const val ARG_URI = "uri_string"
-        private const val ARG_TITLE = "title"
-        private const val ARG_START_POSITION = "start_position"
-
 
         fun instance(context: Context, item: Item? = null): Intent {
             val serviceIntent = Intent(context, PodcastService::class.java)
